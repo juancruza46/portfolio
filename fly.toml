@@ -1,20 +1,36 @@
-# fly.toml file generated for your app
+# fly.toml app configuration file generated for juancruzportfolio on 2024-02-20T03:38:50-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "portfolio"
+app = 'juancruzportfolio'
+primary_region = 'iad'
+
+[build]
+
+[deploy]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 3000
-  protocol = "tcp"
+
+[[services.ports]]
+    port = 80
+    handlers = ['http']
 
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
 
-  [[services.ports]]
-    handlers = ["http"]
-    port = "80"
-    routes = ["https://portfolio.fly.dev/"]
-
-[[deploy.targets]]
-  name = "production"
-  destination = "portfolio"
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
